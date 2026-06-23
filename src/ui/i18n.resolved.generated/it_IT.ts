@@ -4634,6 +4634,18 @@ export const it_IT: EnTranslations = {
       "nythraxis_scourge_of_thornpeak": {
         "name": "Nythraxis, Flagello di Thornpeak"
       },
+      "embercore_flamewaker": {
+        "name": "Embercore Flamewaker"
+      },
+      "embercore_lava_reaver": {
+        "name": "Embercore Lava Reaver"
+      },
+      "embercore_core_hound": {
+        "name": "Embercore Hound"
+      },
+      "magmora_the_living_core": {
+        "name": "Magmora, the Living Core"
+      },
       "brightwood_hare": {
         "name": "Lepre di Brightwood"
       },
@@ -5979,6 +5991,11 @@ export const it_IT: EnTranslations = {
         "name": "Arena d'incursione di Nythraxis",
         "enterText": "Oltrepassi la porta reale sigillata.",
         "leaveText": "Torni nell'aria fredda di Thornpeak."
+      },
+      "embercore_depths": {
+        "name": "Embercore Depths",
+        "enterText": "Heat rolls over you as you enter Embercore Depths.",
+        "leaveText": "You escape the molten dark."
       },
       "drowned_temple": {
         "name": "Il Tempio Annegato",

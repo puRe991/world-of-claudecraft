@@ -4634,6 +4634,18 @@ export const ru_RU: EnTranslations = {
       "nythraxis_scourge_of_thornpeak": {
         "name": "Нитраксис, Бич Торнпика"
       },
+      "embercore_flamewaker": {
+        "name": "Embercore Flamewaker"
+      },
+      "embercore_lava_reaver": {
+        "name": "Embercore Lava Reaver"
+      },
+      "embercore_core_hound": {
+        "name": "Embercore Hound"
+      },
+      "magmora_the_living_core": {
+        "name": "Magmora, the Living Core"
+      },
       "brightwood_hare": {
         "name": "Заяц Брайтвуда"
       },
@@ -5979,6 +5991,11 @@ export const ru_RU: EnTranslations = {
         "name": "Рейдовая арена Нитраксиса",
         "enterText": "Вы проходите через запечатанную королевскую дверь.",
         "leaveText": "Вы возвращаетесь в холодный воздух Терновых высот."
+      },
+      "embercore_depths": {
+        "name": "Embercore Depths",
+        "enterText": "Heat rolls over you as you enter Embercore Depths.",
+        "leaveText": "You escape the molten dark."
       },
       "drowned_temple": {
         "name": "Утонувший храм",

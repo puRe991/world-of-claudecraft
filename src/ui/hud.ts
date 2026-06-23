@@ -8679,17 +8679,17 @@ export class Hud {
       return `<div class="soc-empty">${esc(t('hud.social.raidEmpty'))}${canConvert ? `<div class="soc-empty-action"><button type="button" class="soc-x" data-act="convert-raid">${esc(t('hud.chat.context.convertToRaid'))}</button></div>` : ''}</div>`;
     }
     const leader = party.leader === this.sim.playerId;
-    const groups: Record<1 | 2, typeof party.members> = {
-      1: party.members.filter((m) => m.group === 1),
-      2: party.members.filter((m) => m.group === 2),
-    };
-    const groupHtml = (group: 1 | 2): string => {
+    const groupNumbers = [1, 2, 3, 4, 5, 6, 7, 8] as const;
+    const groups = Object.fromEntries(groupNumbers.map((group) => [
+      group,
+      party.members.filter((m) => m.group === group),
+    ])) as Record<typeof groupNumbers[number], typeof party.members>;
+    const groupHtml = (group: typeof groupNumbers[number]): string => {
       const rows = groups[group].map((m) => {
         const isLead = m.pid === party.leader;
-        const otherGroup = group === 1 ? 2 : 1;
-        const otherFull = groups[otherGroup].length >= 5;
-        const move = leader && !otherFull
-          ? `<button type="button" class="soc-x" data-act="raid-move" data-pid="${m.pid}" data-group="${otherGroup}" title="${esc(t('hud.social.raidMoveToGroup', { group: formatNumber(otherGroup, { maximumFractionDigits: 0 }) }))}">${esc(formatNumber(otherGroup, { maximumFractionDigits: 0 }))}</button>`
+        const moveTarget = groupNumbers.find((candidate) => candidate !== group && groups[candidate].length < 5);
+        const move = leader && moveTarget !== undefined
+          ? `<button type="button" class="soc-x" data-act="raid-move" data-pid="${m.pid}" data-group="${moveTarget}" title="${esc(t('hud.social.raidMoveToGroup', { group: formatNumber(moveTarget, { maximumFractionDigits: 0 }) }))}">${esc(formatNumber(moveTarget, { maximumFractionDigits: 0 }))}</button>`
           : '';
         return `<div class="soc-row raid-row">`
           + `<span class="soc-id"><span class="soc-name">${esc(m.name)}${isLead ? `<span class="rank">${esc(t('hud.social.raidLeader'))}</span>` : ''}</span><span class="soc-sub">${esc(t('hud.social.levelClass', { level: formatNumber(m.level, { maximumFractionDigits: 0 }), className: playerClassDisplayName(m.cls) }))}</span></span>`
@@ -8699,7 +8699,7 @@ export class Hud {
       }).join('') || `<div class="soc-empty">${esc(t('hud.social.raidGroupEmpty'))}</div>`;
       return `<div class="raid-group"><div class="soc-guild-head">${esc(t('hud.social.raidGroupTitle', { position: formatNumber(group, { maximumFractionDigits: 0 }), count: formatNumber(groups[group].length, { maximumFractionDigits: 0 }) }))}</div>${rows}</div>`;
     };
-    return `<div class="raid-groups">${groupHtml(1)}${groupHtml(2)}</div>`;
+    return `<div class="raid-groups">${groupNumbers.map((group) => groupHtml(group)).join('')}</div>`;
   }
 
   // The add/action row changes with the tab (and guild membership). Inputs
@@ -8768,7 +8768,7 @@ export class Hud {
       else if (act === 'raid-move') {
         const pid = Number((x as HTMLElement).dataset.pid);
         const group = Number((x as HTMLElement).dataset.group);
-        if (Number.isFinite(pid) && (group === 1 || group === 2)) this.sim.moveRaidMember(pid, group);
+        if (Number.isFinite(pid) && Number.isInteger(group) && group >= 1 && group <= 8) this.sim.moveRaidMember(pid, group as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8);
       }
       else if (act === 'convert-raid') {
         this.sim.convertPartyToRaid();

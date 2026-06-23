@@ -17,7 +17,7 @@ import {
   isOverheadEmoteId,
   type AccountCosmetics, type ArenaInfo, type CharacterSearchResult, type DuelInfo, type FriendInfo,
   type IWorld, type LeaderboardEntry, type MarketInfo, type OverheadEmoteId,
-  type PartyInfo, type PresenceStatus, type SocialInfo, type TradeInfo,
+  type PartyInfo, type RaidGroup, type PresenceStatus, type SocialInfo, type TradeInfo,
 } from '../world_api';
 
 // ---------------------------------------------------------------------------
@@ -1231,7 +1231,7 @@ export class ClientWorld implements IWorld {
   convertPartyToRaid(): void {
     this.cmd({ cmd: 'praid' });
   }
-  moveRaidMember(targetPid: number, group: 1 | 2): void {
+  moveRaidMember(targetPid: number, group: RaidGroup): void {
     this.cmd({ cmd: 'pmoveRaid', id: targetPid, group });
   }
   // raid/target markers

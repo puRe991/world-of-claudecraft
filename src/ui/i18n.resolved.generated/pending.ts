@@ -9,17 +9,113 @@
 // Reproducibility is checked by tests/i18n_resolved_equivalence.test.ts.
 
 export const pending: Record<string, readonly string[]> = {
-  "es": [],
-  "es_ES": [],
-  "fr_FR": [],
-  "fr_CA": [],
+  "es": [
+    "entities.dungeons.embercore_depths.enterText",
+    "entities.dungeons.embercore_depths.leaveText",
+    "entities.dungeons.embercore_depths.name",
+    "entities.mobs.embercore_core_hound.name",
+    "entities.mobs.embercore_flamewaker.name",
+    "entities.mobs.embercore_lava_reaver.name",
+    "entities.mobs.magmora_the_living_core.name"
+  ],
+  "es_ES": [
+    "entities.dungeons.embercore_depths.enterText",
+    "entities.dungeons.embercore_depths.leaveText",
+    "entities.dungeons.embercore_depths.name",
+    "entities.mobs.embercore_core_hound.name",
+    "entities.mobs.embercore_flamewaker.name",
+    "entities.mobs.embercore_lava_reaver.name",
+    "entities.mobs.magmora_the_living_core.name"
+  ],
+  "fr_FR": [
+    "entities.dungeons.embercore_depths.enterText",
+    "entities.dungeons.embercore_depths.leaveText",
+    "entities.dungeons.embercore_depths.name",
+    "entities.mobs.embercore_core_hound.name",
+    "entities.mobs.embercore_flamewaker.name",
+    "entities.mobs.embercore_lava_reaver.name",
+    "entities.mobs.magmora_the_living_core.name"
+  ],
+  "fr_CA": [
+    "entities.dungeons.embercore_depths.enterText",
+    "entities.dungeons.embercore_depths.leaveText",
+    "entities.dungeons.embercore_depths.name",
+    "entities.mobs.embercore_core_hound.name",
+    "entities.mobs.embercore_flamewaker.name",
+    "entities.mobs.embercore_lava_reaver.name",
+    "entities.mobs.magmora_the_living_core.name"
+  ],
   "en_CA": [],
-  "it_IT": [],
-  "de_DE": [],
-  "zh_CN": [],
-  "zh_TW": [],
-  "ko_KR": [],
-  "ja_JP": [],
-  "pt_BR": [],
-  "ru_RU": []
+  "it_IT": [
+    "entities.dungeons.embercore_depths.enterText",
+    "entities.dungeons.embercore_depths.leaveText",
+    "entities.dungeons.embercore_depths.name",
+    "entities.mobs.embercore_core_hound.name",
+    "entities.mobs.embercore_flamewaker.name",
+    "entities.mobs.embercore_lava_reaver.name",
+    "entities.mobs.magmora_the_living_core.name"
+  ],
+  "de_DE": [
+    "entities.dungeons.embercore_depths.enterText",
+    "entities.dungeons.embercore_depths.leaveText",
+    "entities.dungeons.embercore_depths.name",
+    "entities.mobs.embercore_core_hound.name",
+    "entities.mobs.embercore_flamewaker.name",
+    "entities.mobs.embercore_lava_reaver.name",
+    "entities.mobs.magmora_the_living_core.name"
+  ],
+  "zh_CN": [
+    "entities.dungeons.embercore_depths.enterText",
+    "entities.dungeons.embercore_depths.leaveText",
+    "entities.dungeons.embercore_depths.name",
+    "entities.mobs.embercore_core_hound.name",
+    "entities.mobs.embercore_flamewaker.name",
+    "entities.mobs.embercore_lava_reaver.name",
+    "entities.mobs.magmora_the_living_core.name"
+  ],
+  "zh_TW": [
+    "entities.dungeons.embercore_depths.enterText",
+    "entities.dungeons.embercore_depths.leaveText",
+    "entities.dungeons.embercore_depths.name",
+    "entities.mobs.embercore_core_hound.name",
+    "entities.mobs.embercore_flamewaker.name",
+    "entities.mobs.embercore_lava_reaver.name",
+    "entities.mobs.magmora_the_living_core.name"
+  ],
+  "ko_KR": [
+    "entities.dungeons.embercore_depths.enterText",
+    "entities.dungeons.embercore_depths.leaveText",
+    "entities.dungeons.embercore_depths.name",
+    "entities.mobs.embercore_core_hound.name",
+    "entities.mobs.embercore_flamewaker.name",
+    "entities.mobs.embercore_lava_reaver.name",
+    "entities.mobs.magmora_the_living_core.name"
+  ],
+  "ja_JP": [
+    "entities.dungeons.embercore_depths.enterText",
+    "entities.dungeons.embercore_depths.leaveText",
+    "entities.dungeons.embercore_depths.name",
+    "entities.mobs.embercore_core_hound.name",
+    "entities.mobs.embercore_flamewaker.name",
+    "entities.mobs.embercore_lava_reaver.name",
+    "entities.mobs.magmora_the_living_core.name"
+  ],
+  "pt_BR": [
+    "entities.dungeons.embercore_depths.enterText",
+    "entities.dungeons.embercore_depths.leaveText",
+    "entities.dungeons.embercore_depths.name",
+    "entities.mobs.embercore_core_hound.name",
+    "entities.mobs.embercore_flamewaker.name",
+    "entities.mobs.embercore_lava_reaver.name",
+    "entities.mobs.magmora_the_living_core.name"
+  ],
+  "ru_RU": [
+    "entities.dungeons.embercore_depths.enterText",
+    "entities.dungeons.embercore_depths.leaveText",
+    "entities.dungeons.embercore_depths.name",
+    "entities.mobs.embercore_core_hound.name",
+    "entities.mobs.embercore_flamewaker.name",
+    "entities.mobs.embercore_lava_reaver.name",
+    "entities.mobs.magmora_the_living_core.name"
+  ]
 };

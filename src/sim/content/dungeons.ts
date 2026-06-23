@@ -257,6 +257,57 @@ export const DUNGEON_MOBS: Record<string, MobTemplate> = {
     ],
     scale: 3.1, color: 0x221b2d,
   },
+
+  // ---- Embercore Depths (40-player raid, classic lava cavern) ----
+  embercore_flamewaker: {
+    id: 'embercore_flamewaker', name: 'Embercore Flamewaker', minLevel: 20, maxLevel: 20, family: 'humanoid', elite: true,
+    hpBase: 180, hpPerLevel: 34, dmgBase: 30, dmgPerLevel: 6.4, attackSpeed: 2.0,
+    armorPerLevel: 28, moveSpeed: 8, aggroRadius: 16,
+    aoePulse: { min: 24, max: 34, radius: 10, every: 14, name: 'Flame Burst' },
+    loot: [{ copper: 800, chance: 1 }, { itemId: 'linen_scrap', chance: 0.4 }],
+    scale: 1.25, color: 0xb45309,
+  },
+  embercore_lava_reaver: {
+    id: 'embercore_lava_reaver', name: 'Embercore Lava Reaver', minLevel: 20, maxLevel: 20, family: 'elemental', elite: true,
+    hpBase: 230, hpPerLevel: 42, dmgBase: 34, dmgPerLevel: 7.0, attackSpeed: 2.7,
+    armorPerLevel: 38, moveSpeed: 7, aggroRadius: 17,
+    cleave: { radius: 9, mult: 0.65, name: 'Lava Cleave' },
+    loot: [{ copper: 900, chance: 1 }, { itemId: 'cracked_wyrm_scale', chance: 0.35 }],
+    scale: 1.65, color: 0x7f1d1d,
+  },
+  embercore_core_hound: {
+    id: 'embercore_core_hound', name: 'Embercore Hound', minLevel: 20, maxLevel: 20, family: 'beast', elite: true,
+    hpBase: 170, hpPerLevel: 32, dmgBase: 29, dmgPerLevel: 6.0, attackSpeed: 1.8,
+    armorPerLevel: 24, moveSpeed: 9.5, aggroRadius: 18,
+    enrage: { belowHpPct: 0.25, dmgMult: 1.4, hasteMult: 1.25 },
+    loot: [{ copper: 700, chance: 1 }, { itemId: 'spider_leg', chance: 0.3 }],
+    scale: 1.45, color: 0xdc2626,
+  },
+  magmora_the_living_core: {
+    id: 'magmora_the_living_core', name: 'Magmora, the Living Core', minLevel: 20, maxLevel: 20, family: 'elemental',
+    elite: true, boss: true, ccImmune: true,
+    hpBase: 3600, hpPerLevel: 0, dmgBase: 58, dmgPerLevel: 11.8, attackSpeed: 2.8,
+    armorPerLevel: 52, moveSpeed: 6.5, aggroRadius: 24,
+    aoePulse: { min: 44, max: 64, radius: 18, every: 9, name: 'Molten Pulse' },
+    enrage: { belowHpPct: 0.2, dmgMult: 1.6, hasteMult: 1.25 },
+    summonAdds: { mobId: 'embercore_core_hound', count: 4, atHpPct: [0.75, 0.5, 0.25] },
+    loot: [
+      { copper: 250000, chance: 1 },
+      { itemId: 'deathlord_warplate', chance: 0.17, rollGroup: 'magmora_drop_1' },
+      { itemId: 'necromancers_starshroud', chance: 0.17, rollGroup: 'magmora_drop_1' },
+      { itemId: 'wyrmshadow_harness', chance: 0.17, rollGroup: 'magmora_drop_1' },
+      { itemId: 'wyrmfang_greatblade', chance: 0.17, rollGroup: 'magmora_drop_1' },
+      { itemId: 'staff_of_the_gravewyrm', chance: 0.16, rollGroup: 'magmora_drop_1' },
+      { itemId: 'fang_of_korzul', chance: 0.16, rollGroup: 'magmora_drop_1' },
+      { itemId: 'deathlords_dread_visage', chance: 0.17, rollGroup: 'magmora_drop_2' },
+      { itemId: 'necromancers_soulspire_mantle', chance: 0.17, rollGroup: 'magmora_drop_2' },
+      { itemId: 'wyrmshadow_talongrips', chance: 0.17, rollGroup: 'magmora_drop_2' },
+      { itemId: 'crownforged_warspaulders', chance: 0.17, rollGroup: 'magmora_drop_2' },
+      { itemId: 'stormcallers_spaulders', chance: 0.16, rollGroup: 'magmora_drop_2' },
+      { itemId: 'kingsbane_last_oath', chance: 0.16, rollGroup: 'magmora_drop_2' },
+    ],
+    scale: 3.4, color: 0xf97316,
+  },
 };
 
 // Trash packs of 2 elites (spaced beyond social-aggro range so groups can
@@ -322,6 +373,29 @@ const SANCTUM_SPAWN_LIST: DungeonSpawn[] = [
   { mobId: 'sanctum_drakonid', x: 5, z: 144 },
 ];
 
+
+const EMBERCORE_SPAWN_LIST: DungeonSpawn[] = [
+  { mobId: 'embercore_core_hound', x: -26, z: 24 },
+  { mobId: 'embercore_core_hound', x: -14, z: 26 },
+  { mobId: 'embercore_core_hound', x: 14, z: 26 },
+  { mobId: 'embercore_core_hound', x: 26, z: 24 },
+  { mobId: 'embercore_flamewaker', x: -34, z: 48 },
+  { mobId: 'embercore_lava_reaver', x: -18, z: 50 },
+  { mobId: 'embercore_lava_reaver', x: 18, z: 50 },
+  { mobId: 'embercore_flamewaker', x: 34, z: 48 },
+  { mobId: 'embercore_core_hound', x: -40, z: 74 },
+  { mobId: 'embercore_core_hound', x: -28, z: 76 },
+  { mobId: 'embercore_core_hound', x: 28, z: 76 },
+  { mobId: 'embercore_core_hound', x: 40, z: 74 },
+  { mobId: 'embercore_flamewaker', x: -46, z: 98 },
+  { mobId: 'embercore_lava_reaver', x: -24, z: 100 },
+  { mobId: 'embercore_lava_reaver', x: 24, z: 100 },
+  { mobId: 'embercore_flamewaker', x: 46, z: 98 },
+  { mobId: 'magmora_the_living_core', x: 0, z: 118 },
+  { mobId: 'embercore_lava_reaver', x: -28, z: 116 },
+  { mobId: 'embercore_lava_reaver', x: 28, z: 116 },
+];
+
 const NYTHRAXIS_RAID_SPAWN_LIST: DungeonSpawn[] = [
   { mobId: 'nythraxis_scourge_of_thornpeak', x: 0, z: 96 },
 ];
@@ -365,6 +439,20 @@ export const DUNGEON_DEFS: Record<string, DungeonDef> = {
     suggestedPlayers: 5,
     enterText: 'The air goes cold. Something vast breathes below...',
     leaveText: 'You stagger back into the mountain wind.',
+  },
+
+  embercore_depths: {
+    id: 'embercore_depths',
+    name: 'Embercore Depths',
+    index: 6,
+    doorPos: { x: 132, z: 815 },
+    entry: { x: 0, z: 4 },
+    exitOffset: { x: 0, z: -6 },
+    spawns: EMBERCORE_SPAWN_LIST,
+    interior: 'nythraxis',
+    suggestedPlayers: 40,
+    enterText: 'Heat rolls over you as you enter Embercore Depths.',
+    leaveText: 'You escape the molten dark.',
   },
   nythraxis_crypt: {
     id: 'nythraxis_crypt',

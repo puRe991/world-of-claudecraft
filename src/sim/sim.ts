@@ -29,7 +29,7 @@ import {
   TAUNT_FORCE_SECONDS, addThreat, clearThreat, stealthDetectionRadius, threatEntries, threatModifier, topThreatValue,
 } from './threat';
 import { groundHeight, WATER_LEVEL } from './world';
-import type { AccountCosmetics, LeaderboardEntry } from '../world_api';
+import type { AccountCosmetics, LeaderboardEntry, RaidGroup } from '../world_api';
 import {
   AbilityDef, AbilityEffect, Aura, AuraKind, CAST_PUSHBACK_SEC, CHANNEL_PUSHBACK_FRACTION, CONSUME_DURATION, ItemDef,
   DEFAULT_PARTY_LOOT_STRATEGIES,
@@ -128,11 +128,12 @@ const NYTHRAXIS_ALDRIC_SPAWN_DIST = 50;
 const NYTHRAXIS_ALDRIC_WALK_DIST = 30;
 const PARTY_MAX = 5;
 const RAID_MIN = 5;
-const RAID_MAX = 10;
+const RAID_MAX = 40;
 const RAID_GROUP_MAX = 5;
+const RAID_GROUP_COUNT = RAID_MAX / RAID_GROUP_MAX;
 const DAMAGE_IDLE_DESPAWN_SECONDS = 60;
 const DAMAGE_IDLE_DESPAWN_MOB_IDS = new Set(['varkas_boneguard', 'bound_guardian']);
-const RAID_ALLOWED_DUNGEON_IDS = new Set(['nythraxis_crypt', 'nythraxis_boss_arena']);
+const RAID_ALLOWED_DUNGEON_IDS = new Set(['nythraxis_crypt', 'nythraxis_boss_arena', 'embercore_depths']);
 const RAID_REQUIRED_DUNGEON_IDS = new Set(['nythraxis_boss_arena']);
 const PARTY_XP_RANGE = 80; // yards: members this close share kill xp/credit
 // Rested XP (classic inn-rested bonus). Resting inside an inn footprint accrues a
@@ -328,7 +329,7 @@ export interface Party {
   leader: number; // pid
   members: number[]; // pids
   raid: boolean;
-  raidGroups: Map<number, 1 | 2>; // pid -> raid subgroup
+  raidGroups: Map<number, RaidGroup>; // pid -> raid subgroup
   lootStrategies: LootStrategies;
 }
 
@@ -8845,7 +8846,7 @@ export class Sim {
     }
   }
 
-  moveRaidMember(targetPid: number, group: 1 | 2, pid?: number): void {
+  moveRaidMember(targetPid: number, group: RaidGroup, pid?: number): void {
     const r = this.resolve(pid);
     if (!r) return;
     const party = this.partyOf(r.meta.entityId);
@@ -8863,15 +8864,18 @@ export class Sim {
     }
   }
 
-  private nextRaidGroupFor(party: Party): 1 | 2 {
-    const g1 = party.members.filter((mPid) => (party.raidGroups.get(mPid) ?? 1) === 1).length;
-    return g1 < RAID_GROUP_MAX ? 1 : 2;
+  private nextRaidGroupFor(party: Party): RaidGroup {
+    for (let group = 1; group <= RAID_GROUP_COUNT; group++) {
+      const count = party.members.filter((mPid) => (party.raidGroups.get(mPid) ?? 1) === group).length;
+      if (count < RAID_GROUP_MAX) return group as RaidGroup;
+    }
+    return RAID_GROUP_COUNT as RaidGroup;
   }
 
   private normalizeRaidGroups(party: Party): void {
     party.raidGroups.clear();
     for (let i = 0; i < party.members.length; i++) {
-      party.raidGroups.set(party.members[i], i < RAID_GROUP_MAX ? 1 : 2);
+      party.raidGroups.set(party.members[i], (Math.floor(i / RAID_GROUP_MAX) + 1) as RaidGroup);
     }
   }
 
