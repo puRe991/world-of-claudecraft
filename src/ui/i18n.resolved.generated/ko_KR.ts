@@ -4634,6 +4634,18 @@ export const ko_KR: EnTranslations = {
       "nythraxis_scourge_of_thornpeak": {
         "name": "나이트락시스, 손피크의 재앙"
       },
+      "embercore_flamewaker": {
+        "name": "Embercore Flamewaker"
+      },
+      "embercore_lava_reaver": {
+        "name": "Embercore Lava Reaver"
+      },
+      "embercore_core_hound": {
+        "name": "Embercore Hound"
+      },
+      "magmora_the_living_core": {
+        "name": "Magmora, the Living Core"
+      },
       "brightwood_hare": {
         "name": "브라이트우드 산토끼"
       },
@@ -5979,6 +5991,11 @@ export const ko_KR: EnTranslations = {
         "name": "니트락시스 공격대 투기장",
         "enterText": "봉인된 왕실 문을 지나갑니다.",
         "leaveText": "쏜피크의 차가운 공기 속으로 돌아옵니다."
+      },
+      "embercore_depths": {
+        "name": "Embercore Depths",
+        "enterText": "Heat rolls over you as you enter Embercore Depths.",
+        "leaveText": "You escape the molten dark."
       },
       "drowned_temple": {
         "name": "익사한 신전",

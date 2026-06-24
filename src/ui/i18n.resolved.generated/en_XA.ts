@@ -4634,6 +4634,18 @@ export const en_XA: EnTranslations = {
       "nythraxis_scourge_of_thornpeak": {
         "name": "[Ñýţĥŕáẋíš, Šçóúŕĝé óƒ Ţĥóŕñþéáķ]"
       },
+      "embercore_flamewaker": {
+        "name": "[Éɱƀéŕçóŕé Ƒļáɱéŵáķéŕ]"
+      },
+      "embercore_lava_reaver": {
+        "name": "[Éɱƀéŕçóŕé Ļáʋá Ŕéáʋéŕ]"
+      },
+      "embercore_core_hound": {
+        "name": "[Éɱƀéŕçóŕé Ĥóúñð]"
+      },
+      "magmora_the_living_core": {
+        "name": "[Ɱáĝɱóŕá, ţĥé Ļíʋíñĝ Çóŕé]"
+      },
       "brightwood_hare": {
         "name": "[Ɓŕíĝĥţŵóóð Ĥáŕé]"
       },
@@ -5979,6 +5991,11 @@ export const en_XA: EnTranslations = {
         "name": "[Ñýţĥŕáẋíš Ŕáíð Áŕéñá]",
         "enterText": "[Ýóú þášš ţĥŕóúĝĥ ţĥé šéáļéð ŕóýáļ ðóóŕ.]",
         "leaveText": "[Ýóú ŕéţúŕñ ţó ţĥé çóļð áíŕ óƒ Ţĥóŕñþéáķ.]"
+      },
+      "embercore_depths": {
+        "name": "[Éɱƀéŕçóŕé Ðéþţĥš]",
+        "enterText": "[Ĥéáţ ŕóļļš óʋéŕ ýóú áš ýóú éñţéŕ Éɱƀéŕçóŕé Ðéþţĥš.]",
+        "leaveText": "[Ýóú éšçáþé ţĥé ɱóļţéñ ðáŕķ.]"
       },
       "drowned_temple": {
         "name": "[Ţĥé Ðŕóŵñéð Ţéɱþļé]",

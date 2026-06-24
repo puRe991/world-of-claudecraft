@@ -30,7 +30,8 @@ const MOB_IDS = [
   'fallen_captain_aldren', 'corrupted_priest_malric', 'deathstalker_voss',
   'vision_aldren_warrior', 'vision_malric_mage', 'vision_deathstalker_voss',
   'bound_guardian', 'nythraxis_skeleton_warrior',
-  'nythraxis_scourge_of_thornpeak',
+  'nythraxis_scourge_of_thornpeak', 'embercore_flamewaker', 'embercore_lava_reaver',
+  'embercore_core_hound', 'magmora_the_living_core',
   // Brightwood Glade wildlife pack
   'brightwood_hare', 'glade_fox', 'spotted_fawn', 'meadow_crane', 'thornpelt_badger',
   'dawnmane_doe', 'bramble_lynx', 'brightwood_stag', 'grovetusk_boar', 'sunhide_bear',
@@ -68,7 +69,7 @@ const QUEST_IDS = [
 ] as const;
 
 const ZONE_IDS = ['eastbrook_vale', 'mirefen_marsh', 'thornpeak_heights'] as const;
-const DUNGEON_IDS = ['hollow_crypt', 'sunken_bastion', 'gravewyrm_sanctum', 'nythraxis_crypt', 'nythraxis_boss_arena'] as const;
+const DUNGEON_IDS = ['hollow_crypt', 'sunken_bastion', 'gravewyrm_sanctum', 'nythraxis_crypt', 'nythraxis_boss_arena', 'embercore_depths'] as const;
 
 type MobId = typeof MOB_IDS[number];
 type NpcId = typeof NPC_IDS[number];

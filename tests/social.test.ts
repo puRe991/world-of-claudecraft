@@ -348,10 +348,10 @@ describe('parties', () => {
     expect(info.z).toBeCloseTo(-23, 3);
   });
 
-  it('converts a party to a two-group raid with a ten player cap', () => {
+  it('converts a party to an eight-group raid with a forty player cap', () => {
     const sim = makeWorld();
     const leader = sim.addPlayer('warrior', 'Leader');
-    const pids = Array.from({ length: 10 }, (_, i) => sim.addPlayer('priest', `Raid${i}`));
+    const pids = Array.from({ length: 40 }, (_, i) => sim.addPlayer('priest', `Raid${i}`));
     for (const pid of pids.slice(0, 3)) {
       sim.partyInvite(pid, leader);
       sim.partyAccept(pid);
@@ -361,20 +361,22 @@ describe('parties', () => {
     sim.partyInvite(pids[3], leader);
     sim.partyAccept(pids[3]);
     sim.convertPartyToRaid(leader);
-    for (const pid of pids.slice(4, 9)) {
+    for (const pid of pids.slice(4, 39)) {
       sim.partyInvite(pid, leader);
       sim.partyAccept(pid);
     }
     const party = sim.partyOf(leader)!;
     expect(party.raid).toBe(true);
-    expect(party.members).toHaveLength(10);
-    expect(party.members.filter((pid) => party.raidGroups.get(pid) === 1)).toHaveLength(5);
-    expect(party.members.filter((pid) => party.raidGroups.get(pid) === 2)).toHaveLength(5);
+    expect(party.members).toHaveLength(40);
+    for (let group = 1; group <= 8; group++) {
+      expect(party.members.filter((pid) => party.raidGroups.get(pid) === group)).toHaveLength(5);
+    }
 
-    sim.partyInvite(pids[9], leader);
-    sim.partyAccept(pids[9]);
-    expect(sim.partyOf(pids[9])).toBeNull();
-    expect(party.members).toHaveLength(10);
+    const overflow = sim.addPlayer('priest', 'RaidOverflow');
+    sim.partyInvite(overflow, leader);
+    sim.partyAccept(overflow);
+    expect(sim.partyOf(overflow)).toBeNull();
+    expect(party.members).toHaveLength(40);
   });
 
   it('only the raid leader can move members between raid groups', () => {

@@ -2,6 +2,8 @@ import { OVERHEAD_EMOTE_IDS, type ArenaCombatant, type ArenaFormat, type ArenaSt
 import type { ResolvedAbility } from './sim/sim';
 import type { TalentAllocation, SavedLoadout, Role } from './sim/content/talents';
 
+export type RaidGroup = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+
 export interface PartyMemberInfo {
   pid: number;
   name: string;
@@ -16,7 +18,7 @@ export interface PartyMemberInfo {
   z: number;
   dead: number;
   inCombat: number;
-  group: 1 | 2;
+  group: RaidGroup;
 }
 
 export interface PartyInfo {
@@ -320,7 +322,7 @@ export interface IWorld {
   partyLeave(): void;
   partyKick(targetPid: number): void;
   convertPartyToRaid(): void;
-  moveRaidMember(targetPid: number, group: 1 | 2): void;
+  moveRaidMember(targetPid: number, group: RaidGroup): void;
   // raid/target markers (party-scoped): markerId 0..7, null = no mark
   markerFor(entityId: number): number | null;
   setMarker(entityId: number, markerId: number): void;
