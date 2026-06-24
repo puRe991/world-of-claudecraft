@@ -34,7 +34,7 @@
     "db:up": "docker compose up -d postgres",
     "db:down": "docker compose down",
     "build:server": "node scripts/build_server.mjs",
-    "server": "npm run build:server && node dist-server/server.cjs",
+    "server": "node scripts/check_server_env.mjs && npm run build:server && node dist-server/server.cjs",
     "realms": "npm run build:server && node scripts/dev-realms.mjs",
     "admin:grant": "node scripts/grant_admin.mjs",
     "voices:gen": "node scripts/gen_npc_voices.mjs",
