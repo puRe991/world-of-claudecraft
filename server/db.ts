@@ -1,7 +1,7 @@
 import { Pool } from 'pg';
 import { isUniqueViolation } from './http_util';
 import type { CharacterState, MarketSave } from '../src/sim/sim';
-import type { ArenaFormat, PlayerClass } from '../src/sim/types';
+import type { ArenaFormat, PlayerClass, PlayerFaction } from '../src/sim/types';
 import type { ChatLogRow } from './chat_log';
 import { SOCIAL_SCHEMA } from './social_db';
 import { seedChatFilterDefaults } from './chat_filter_db';
@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS characters (
   account_id INT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
   name TEXT UNIQUE NOT NULL,
   class TEXT NOT NULL,
+  faction TEXT NOT NULL DEFAULT 'alliance',
   realm TEXT NOT NULL DEFAULT '${REALM_SQL_DEFAULT}',
   level INT NOT NULL DEFAULT 1,
   state JSONB,
@@ -59,6 +60,7 @@ CREATE TABLE IF NOT EXISTS characters (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS characters_account ON characters(account_id);
+ALTER TABLE characters ADD COLUMN IF NOT EXISTS faction TEXT NOT NULL DEFAULT 'alliance';
 ALTER TABLE characters ADD COLUMN IF NOT EXISTS realm TEXT NOT NULL DEFAULT '${REALM_SQL_DEFAULT}';
 -- Max-Level XP Overflow leaderboard: indexed lifetime-XP sort key. The first
 -- index serves the realm-scoped in-game panel; the second serves the global
@@ -818,6 +820,7 @@ export interface CharacterRow {
   account_id: number;
   name: string;
   class: PlayerClass;
+  faction: PlayerFaction;
   level: number;
   state: CharacterState | null;
   is_gm: boolean;
@@ -829,7 +832,7 @@ export interface CharacterRow {
 // process only ever lists, loads, or creates characters on its own realm.
 export async function listCharacters(accountId: number): Promise<CharacterRow[]> {
   const res = await pool.query(
-    'SELECT id, account_id, name, class, level, state, is_gm, force_rename FROM characters WHERE account_id = $1 AND realm = $2 ORDER BY id',
+    'SELECT id, account_id, name, class, level, state, is_gm, force_rename, faction FROM characters WHERE account_id = $1 AND realm = $2 ORDER BY id',
     [accountId, REALM],
   );
   return res.rows;
@@ -837,7 +840,7 @@ export async function listCharacters(accountId: number): Promise<CharacterRow[]>
 
 export async function getCharacter(accountId: number, characterId: number): Promise<CharacterRow | null> {
   const res = await pool.query(
-    'SELECT id, account_id, name, class, level, state, is_gm, force_rename FROM characters WHERE id = $1 AND account_id = $2 AND realm = $3',
+    'SELECT id, account_id, name, class, level, state, is_gm, force_rename, faction FROM characters WHERE id = $1 AND account_id = $2 AND realm = $3',
     [characterId, accountId, REALM],
   );
   return res.rows[0] ?? null;
@@ -857,10 +860,10 @@ export async function findCharacterReportTargetByName(name: string): Promise<{ a
   return row ? { accountId: Number(row.account_id), characterId: Number(row.id), characterName: row.name } : null;
 }
 
-export async function createCharacter(accountId: number, name: string, cls: PlayerClass, state: CharacterState | null = null): Promise<CharacterRow> {
+export async function createCharacter(accountId: number, name: string, cls: PlayerClass, faction: PlayerFaction, state: CharacterState | null = null): Promise<CharacterRow> {
   const res = await pool.query(
-    'INSERT INTO characters (account_id, name, class, realm, state) VALUES ($1, $2, $3, $4, $5) RETURNING id, account_id, name, class, level, state, is_gm, force_rename',
-    [accountId, name, cls, REALM, state ? JSON.stringify(state) : null],
+    'INSERT INTO characters (account_id, name, class, faction, realm, state) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, account_id, name, class, level, state, is_gm, force_rename, faction',
+    [accountId, name, cls, faction, REALM, state ? JSON.stringify(state) : null],
   );
   return res.rows[0];
 }
@@ -869,6 +872,7 @@ export async function createCharacterCapped(
   accountId: number,
   name: string,
   cls: PlayerClass,
+  faction: PlayerFaction,
   limit = 10,
   state: CharacterState | null = null,
 ): Promise<CharacterRow | null> {
@@ -883,8 +887,8 @@ export async function createCharacterCapped(
     );
     if (Number(count.rows[0]?.n ?? 0) >= limit) { await client.query('ROLLBACK'); return null; }
     const res = await client.query(
-      'INSERT INTO characters (account_id, name, class, realm, state) VALUES ($1, $2, $3, $4, $5) RETURNING id, account_id, name, class, level, state, is_gm, force_rename',
-      [accountId, name, cls, REALM, state ? JSON.stringify(state) : null],
+      'INSERT INTO characters (account_id, name, class, faction, realm, state) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, account_id, name, class, level, state, is_gm, force_rename, faction',
+      [accountId, name, cls, faction, REALM, state ? JSON.stringify(state) : null],
     );
     await client.query('COMMIT');
     return res.rows[0];
@@ -944,7 +948,7 @@ export async function renameCharacter(accountId: number, characterId: number, na
     `UPDATE characters
      SET name = $3, force_rename = FALSE, updated_at = now()
      WHERE id = $1 AND account_id = $2 AND realm = $4 AND force_rename = TRUE
-     RETURNING id, account_id, name, class, level, state, is_gm, force_rename`,
+     RETURNING id, account_id, name, class, level, state, is_gm, force_rename, faction`,
     [characterId, accountId, name, REALM],
   );
   return res.rows[0] ?? null;

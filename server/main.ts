@@ -12,7 +12,7 @@ import {
 } from './db';
 import { virtualLevel } from '../src/sim/types';
 import { Sim } from '../src/sim/sim';
-import type { PlayerClass } from '../src/sim/types';
+import type { PlayerClass, PlayerFaction } from '../src/sim/types';
 import type { LeaderboardEntry } from '../src/world_api';
 import { cleanReportReason, createPlayerReport, createSuspiciousRegistrationReport } from './moderation_db';
 import { createBugReport, BugReportRateLimitError, BUG_DESCRIPTION_MAX } from './bug_report_db';
@@ -87,10 +87,12 @@ const BLOCKED_IP_REFRESH_MS = 60_000;
 
 const game = new GameServer();
 
-function initialCharacterState(cls: PlayerClass, name: string, skin: number): import('../src/sim/sim').CharacterState {
+function initialCharacterState(cls: PlayerClass, name: string, skin: number, faction: PlayerFaction): import('../src/sim/sim').CharacterState {
   const sim = new Sim({ seed: 20061, playerClass: cls, playerName: name });
   sim.setPlayerSkin(sim.playerId, skin);
-  return sim.serializeCharacter(sim.playerId)!;
+  sim.setPlayerFaction(sim.playerId, faction);
+  const state = sim.serializeCharacter(sim.playerId)!;
+  return state;
 }
 
 // ---------------------------------------------------------------------------
@@ -452,7 +454,7 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
         return json(res, 200, {
           realm: REALM,
           characters: chars.map((c) => ({
-            id: c.id, name: c.name, class: c.class, level: c.level,
+            id: c.id, name: c.name, class: c.class, faction: c.faction, level: c.level,
             skin: c.state?.skin ?? 0,
             online: [...game.clients.values()].some((s) => s.characterId === c.id),
             forceRename: c.force_rename,
@@ -466,11 +468,14 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
         if (offensiveName(name)) return json(res, 400, { error: 'character name is not allowed' });
         const validClasses = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 'warlock', 'druid'];
         if (!validClasses.includes(body.class)) return json(res, 400, { error: 'invalid class' });
+        const validFactions = ['alliance', 'horde'];
+        if (!validFactions.includes(body.faction)) return json(res, 400, { error: 'invalid faction' });
+        const faction = body.faction as PlayerFaction;
         const skin = Math.max(0, Math.min(7, Math.floor(typeof body.skin === 'number' ? body.skin : 0)));
         try {
-          const c = await createCharacterCapped(accountId, name, body.class, 10, initialCharacterState(body.class, name, skin));
+          const c = await createCharacterCapped(accountId, name, body.class, faction, 10, initialCharacterState(body.class, name, skin, faction));
           if (!c) return json(res, 400, { error: 'character limit reached' });
-          return json(res, 200, { id: c.id, name: c.name, class: c.class, level: c.level, skin: c.state?.skin ?? skin, forceRename: c.force_rename });
+          return json(res, 200, { id: c.id, name: c.name, class: c.class, faction: c.faction, level: c.level, skin: c.state?.skin ?? skin, forceRename: c.force_rename });
         } catch (err: any) {
           if (isUniqueViolation(err)) return json(res, 409, { error: 'that name is taken' });
           throw err;

@@ -174,6 +174,13 @@ export const es_ES: EnTranslations = {
       "title": "Emotes",
       "done": "Listo"
     },
+    "factions": {
+      "title": "Facción",
+      "alliance": "Alianza",
+      "horde": "Horda",
+      "allianceAria": "Facción Alianza",
+      "hordeAria": "Facción Horda"
+    },
     "questTracker": {
       "count": "({count})",
       "collapseHint": "Contraer el seguimiento de misiones",

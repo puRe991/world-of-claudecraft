@@ -11,6 +11,12 @@
 import type { TranslationKey } from '../i18n.catalog';
 
 export const fr_CA: Partial<Record<TranslationKey, string>> = {
+  "hudChrome.factions.title": "Faction",
+  "hudChrome.factions.alliance": "Alliance",
+  "hudChrome.factions.horde": "Horde",
+  "hudChrome.factions.allianceAria": "Faction Alliance",
+  "hudChrome.factions.hordeAria": "Faction Horde",
+
   // Stat tooltips inherit the fr_FR base: none of these strings has a genuine
   // Quebec-specific form, so per the divergence-only policy fr_CA carries no
   // hudChrome.statInfo.* overrides.

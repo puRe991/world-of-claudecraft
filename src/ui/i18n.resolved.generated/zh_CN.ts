@@ -174,6 +174,13 @@ export const zh_CN: EnTranslations = {
       "title": "表情",
       "done": "完成"
     },
+    "factions": {
+      "title": "阵营",
+      "alliance": "联盟",
+      "horde": "部落",
+      "allianceAria": "联盟阵营",
+      "hordeAria": "部落阵营"
+    },
     "questTracker": {
       "count": "（{count}）",
       "collapseHint": "收起任务追踪器",

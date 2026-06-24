@@ -174,6 +174,13 @@ export const ko_KR: EnTranslations = {
       "title": "감정 표현",
       "done": "완료"
     },
+    "factions": {
+      "title": "진영",
+      "alliance": "얼라이언스",
+      "horde": "호드",
+      "allianceAria": "얼라이언스 진영",
+      "hordeAria": "호드 진영"
+    },
     "questTracker": {
       "count": "({count})",
       "collapseHint": "퀘스트 추적기 접기",

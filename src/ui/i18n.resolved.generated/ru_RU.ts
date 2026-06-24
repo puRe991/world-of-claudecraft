@@ -174,6 +174,13 @@ export const ru_RU: EnTranslations = {
       "title": "Эмоции",
       "done": "Готово"
     },
+    "factions": {
+      "title": "Фракция",
+      "alliance": "Альянс",
+      "horde": "Орда",
+      "allianceAria": "Фракция Альянс",
+      "hordeAria": "Фракция Орда"
+    },
     "questTracker": {
       "count": "({count})",
       "collapseHint": "Свернуть трекер заданий",

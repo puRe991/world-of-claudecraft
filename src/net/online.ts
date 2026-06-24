@@ -9,7 +9,7 @@ import {
 import { mechChromaItemId, mechChromaSkinIndex } from '../sim/content/skins';
 import { signChallenge } from '../sim/client_challenge';
 import {
-  Entity, EquipSlot, InvSlot, LootRollChoice, MoveInput, PlayerClass, QuestProgress, QuestState, SimEvent,
+  Entity, EquipSlot, InvSlot, LootRollChoice, MoveInput, PlayerClass, PlayerFaction, QuestProgress, QuestState, SimEvent,
   emptyMoveInput,
 } from '../sim/types';
 import { normalizeMoveFacing, sanitizeMoveInput } from '../sim/move_input';
@@ -28,6 +28,7 @@ export interface CharacterSummary {
   id: number;
   name: string;
   class: PlayerClass;
+  faction: PlayerFaction;
   level: number;
   skin: number;
   online: boolean;
@@ -272,8 +273,8 @@ export class Api {
     return data.characters;
   }
 
-  async createCharacter(name: string, cls: PlayerClass, skin = 0): Promise<void> {
-    await this.post('/api/characters', { name, class: cls, skin });
+  async createCharacter(name: string, cls: PlayerClass, faction: PlayerFaction, skin = 0): Promise<void> {
+    await this.post('/api/characters', { name, class: cls, faction, skin });
   }
 
   async renameCharacter(characterId: number, name: string): Promise<void> {
