@@ -174,6 +174,13 @@ export const en_XA: EnTranslations = {
       "title": "[Éɱóţéš]",
       "done": "[Ðóñé]"
     },
+    "factions": {
+      "title": "[Ƒáçţíóñ]",
+      "alliance": "[Áļļíáñçé]",
+      "horde": "[Ĥóŕðé]",
+      "allianceAria": "[Áļļíáñçé ƒáçţíóñ]",
+      "hordeAria": "[Ĥóŕðé ƒáçţíóñ]"
+    },
     "questTracker": {
       "count": "[({count})]",
       "collapseHint": "[Çóļļáþšé ɋúéšţ ţŕáçķéŕ]",

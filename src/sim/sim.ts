@@ -35,7 +35,7 @@ import {
   DEFAULT_PARTY_LOOT_STRATEGIES,
   CONSUME_TICKS, CrowdControlDrCategory, DT, Entity, EquipSlot, FISHING_CAST_ID, FISHING_CAST_TIME, GCD,
   CurrencyLootStrategy, INTERACT_RANGE, InvSlot, ItemLootStrategy, LootEntry, LootRollChoice, LootSlot, LootStrategies, MELEE_RANGE, MAX_LEVEL, MobFamily, MobTemplate,
-  MoveInput, OverheadEmoteId, PetMode, PlayerClass, QuestProgress, QuestState, RUN_SPEED, SimConfig, SimEvent, TURN_SPEED, Vec3,
+  MoveInput, OverheadEmoteId, PetMode, PlayerClass, PlayerFaction, QuestProgress, QuestState, RUN_SPEED, SimConfig, SimEvent, TURN_SPEED, Vec3,
   angleTo, armorReduction, dist2d, emptyMoveInput, isConsuming, meleeMissChance, mobXpValue, normAngle,
   rageFromDealing, rageFromTaking, spellHitChance, xpForLevel, isQuestTurnInNpc, questTurnInNpcIds,
   MILESTONES, virtualLevel, xpToReachLevel, canPrestige,
@@ -508,6 +508,7 @@ export interface PlayerMeta {
   cls: PlayerClass;
   name: string;
   skin: number; // appearance index into the render SKINS[player_<cls>]; persisted, synced
+  faction: PlayerFaction;
   skinCatalog: SkinCatalog;
   // Cosmetic skin-select event: the rank rolled when the event token was used,
   // pending a lock-in. Set on use, cleared on claim. Persisted so the reward
@@ -669,6 +670,7 @@ export interface CharacterState {
   raidLockouts?: Record<string, number>;
   pet?: PetState | null;
   skin?: number; // appearance index (JSONB; optional so pre-skin saves load as 0)
+  faction?: PlayerFaction;
   skinCatalog?: SkinCatalog;
   // Pending skin-select event rank (JSONB; optional so older saves load as null).
   pendingSkinRank?: SkinRank | null;
@@ -974,6 +976,7 @@ export class Sim {
       cls,
       name,
       skin: opts?.state?.skin ?? 0,
+      faction: opts?.state?.faction ?? 'alliance',
       skinCatalog: opts?.state?.skinCatalog === 'mech' ? 'mech' : 'class',
       pendingSkinRank: opts?.state?.pendingSkinRank ?? null,
       pendingSkinCatalog: opts?.state?.pendingSkinCatalog ?? null,
@@ -1157,6 +1160,7 @@ export class Sim {
       raidLockouts: Object.fromEntries([...meta.raidLockouts].filter(([, until]) => until > this.lockoutNowMs())),
       pet: this.serializePet(pid),
       skin: meta.skin,
+      faction: meta.faction,
       skinCatalog: meta.skinCatalog,
       pendingSkinRank: meta.pendingSkinRank,
       pendingSkinCatalog: meta.pendingSkinCatalog,
@@ -1177,6 +1181,13 @@ export class Sim {
     meta.skinCatalog = catalog;
     e.skin = idx;
     e.skinCatalog = catalog;
+    return true;
+  }
+
+  setPlayerFaction(pid: number, faction: PlayerFaction): boolean {
+    const meta = this.players.get(pid);
+    if (!meta) return false;
+    meta.faction = faction;
     return true;
   }
 

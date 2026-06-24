@@ -14,6 +14,12 @@
 import type { TranslationKey } from '../i18n.catalog';
 
 export const ko_KR: Partial<Record<TranslationKey, string>> = {
+  "hudChrome.factions.title": "진영",
+  "hudChrome.factions.alliance": "얼라이언스",
+  "hudChrome.factions.horde": "호드",
+  "hudChrome.factions.allianceAria": "얼라이언스 진영",
+  "hudChrome.factions.hordeAria": "호드 진영",
+
   "hudChrome.options.interfaceMode": "인터페이스 모드",
   "hudChrome.options.interfaceModeAuto": "자동",
   "hudChrome.options.interfaceModeDesktop": "데스크톱",

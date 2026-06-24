@@ -14,6 +14,12 @@
 import type { TranslationKey } from '../i18n.catalog';
 
 export const zh_TW: Partial<Record<TranslationKey, string>> = {
+  "hudChrome.factions.title": "陣營",
+  "hudChrome.factions.alliance": "聯盟",
+  "hudChrome.factions.horde": "部落",
+  "hudChrome.factions.allianceAria": "聯盟陣營",
+  "hudChrome.factions.hordeAria": "部落陣營",
+
   "hudChrome.options.interfaceMode": "介面模式",
   "hudChrome.options.interfaceModeAuto": "自動",
   "hudChrome.options.interfaceModeDesktop": "桌面",

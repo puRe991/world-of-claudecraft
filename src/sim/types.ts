@@ -16,6 +16,7 @@ export const FISHING_CAST_TIME = 5;
 export type PlayerClass =
   | 'warrior' | 'paladin' | 'hunter' | 'rogue' | 'priest'
   | 'shaman' | 'mage' | 'warlock' | 'druid';
+export type PlayerFaction = 'alliance' | 'horde';
 // '1v1'/'2v2' are the ranked Ashen Coliseum ladders; 'fiesta' is the
 // dopamine-maxxed 2v2 party mode (score-based, respawns, augments, a shrinking
 // ring) — see docs/design and the Fiesta region of sim.ts.
@@ -36,6 +37,7 @@ export interface ArenaCombatant {
 export const ALL_CLASSES: PlayerClass[] = [
   'warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 'warlock', 'druid',
 ];
+export const ALL_FACTIONS: PlayerFaction[] = ['alliance', 'horde'];
 export type ResourceType = 'rage' | 'mana' | 'energy';
 export const OVERHEAD_EMOTE_IDS = [
   'wave', 'laugh', 'question', 'cheer', 'dance', 'point', 'flex', 'salute', 'cry', 'bow', 'clap', 'roar', 'kneel',

@@ -174,6 +174,13 @@ export const ja_JP: EnTranslations = {
       "title": "エモート",
       "done": "完了"
     },
+    "factions": {
+      "title": "陣営",
+      "alliance": "アライアンス",
+      "horde": "ホード",
+      "allianceAria": "アライアンス陣営",
+      "hordeAria": "ホード陣営"
+    },
     "questTracker": {
       "count": "（{count}）",
       "collapseHint": "クエストトラッカーを折りたたむ",

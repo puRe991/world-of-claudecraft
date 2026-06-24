@@ -14,6 +14,12 @@
 import type { TranslationKey } from '../i18n.catalog';
 
 export const it_IT: Partial<Record<TranslationKey, string>> = {
+  "hudChrome.factions.title": "Fazione",
+  "hudChrome.factions.alliance": "Alleanza",
+  "hudChrome.factions.horde": "Orda",
+  "hudChrome.factions.allianceAria": "Fazione Alleanza",
+  "hudChrome.factions.hordeAria": "Fazione Orda",
+
   "hudChrome.options.interfaceMode": "Modalità interfaccia",
   "hudChrome.options.interfaceModeAuto": "Auto",
   "hudChrome.options.interfaceModeDesktop": "Desktop",

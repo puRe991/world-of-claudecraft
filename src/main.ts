@@ -42,7 +42,7 @@ import { zoneBiomeAt } from './sim/world';
 import { assetsReady } from './render/assets/preload';
 import { CharacterPreview } from './render/characters';
 import { skinCount } from './render/characters/manifest';
-import { DT, INTERACT_RANGE, MELEE_RANGE, PlayerClass, RUN_SPEED, dist2d } from './sim/types';
+import { DT, INTERACT_RANGE, MELEE_RANGE, PlayerClass, PlayerFaction, RUN_SPEED, dist2d } from './sim/types';
 import { togglePasswordVisibility, syncInputAriaState, validateForm, handleKeyboardActivation, validateCharacterName } from './ui/auth_utils';
 import { CLASSES, ABILITIES } from './sim/content/classes';
 import { CLASS_DETAILS, SIGNATURE_ABILITIES } from './ui/class_details_data';
@@ -1682,11 +1682,12 @@ function sanitizeOfflineName(raw: string): string {
   return /^[A-Za-z][A-Za-z' -]{1,15}$/.test(stripped) ? stripped : 'Adventurer';
 }
 
-async function startOffline(playerClass: PlayerClass, name: string, skin = 0): Promise<void> {
+async function startOffline(playerClass: PlayerClass, name: string, faction: PlayerFaction, skin = 0): Promise<void> {
   if (!(await prepareWorldEntry())) return;
   enterLoadingState(t('loading.world'));
   const sim = new Sim({ seed: WORLD_SEED, playerClass, playerName: name });
   sim.setPlayerSkin(sim.playerId, skin);
+  sim.setPlayerFaction(sim.playerId, faction);
   // Offline characters are not persisted (a fresh name is typed each session),
   // so the only stable handle is class + name. Keybinds scope to that pair.
   void startGame(sim, sim, null, `offline:${playerClass}:${name}`);
@@ -1792,6 +1793,23 @@ function selectedSkin(rowId: string, fallback: number): number {
 }
 
 /** Reset to the default skin and (re)render the offline picker for a class. */
+
+function selectedFaction(panelSelector: string): PlayerFaction {
+  const selected = document.querySelector(`${panelSelector} .mini-faction.sel`) as HTMLElement | null;
+  return selected?.dataset.faction === 'horde' ? 'horde' : 'alliance';
+}
+
+function selectDefaultFaction(panelSelector: string): void {
+  const fallback = document.querySelector(`${panelSelector} .mini-faction[data-faction="alliance"]`) as HTMLElement | null;
+  if (!fallback) return;
+  document.querySelectorAll(`${panelSelector} .mini-faction`).forEach((item) => {
+    item.classList.remove('sel');
+    item.setAttribute('aria-pressed', 'false');
+  });
+  fallback.classList.add('sel');
+  fallback.setAttribute('aria-pressed', 'true');
+}
+
 function refreshOfflineSkins(cls: PlayerClass): void {
   offlineSkin = 0;
   characterPreview?.setSkin(0);
@@ -4095,7 +4113,7 @@ function wireStartScreens(): void {
     music.init();
     sfx.init();
     const name = sanitizeOfflineName(rawName);
-    void startOffline(cls, name, selectedSkin('#offline-skin-row', offlineSkin));
+    void startOffline(cls, name, selectedFaction('#offline-select'), selectedSkin('#offline-skin-row', offlineSkin));
   };
 
   const handleOfflineSelect = () => {
@@ -4114,6 +4132,7 @@ function wireStartScreens(): void {
       btnStartOffline.removeAttribute('disabled');
       refreshOfflineSkins('warrior');
     }
+    selectDefaultFaction('#offline-select');
   };
 
   onlineBtn.addEventListener('click', handleOnlineSelect);
@@ -4618,6 +4637,7 @@ function wireStartScreens(): void {
     renderClassDetails('charcreate-class-details', 'warrior');
     refreshOnlineSkins('warrior');
   }
+  selectDefaultFaction('#charcreate-panel');
   const newCharNameInput = $('#new-char-name') as HTMLInputElement;
   const charselectError = $('#charselect-error');
 
@@ -4642,6 +4662,22 @@ function wireStartScreens(): void {
         }
       }
     });
+  });
+
+
+  document.querySelectorAll<HTMLElement>('#charcreate-panel .mini-faction, #offline-select .mini-faction').forEach((card) => {
+    const handleFactionSelect = () => {
+      const panel = card.closest('#charcreate-panel, #offline-select');
+      if (!panel) return;
+      panel.querySelectorAll('.mini-faction').forEach((item) => {
+        item.classList.remove('sel');
+        item.setAttribute('aria-pressed', 'false');
+      });
+      card.classList.add('sel');
+      card.setAttribute('aria-pressed', 'true');
+    };
+    card.addEventListener('click', handleFactionSelect);
+    card.addEventListener('keydown', (e) => handleKeyboardActivation(e as KeyboardEvent, handleFactionSelect));
   });
 
   $('#btn-create-char').addEventListener('click', async () => {
@@ -4670,7 +4706,7 @@ function wireStartScreens(): void {
     newCharNameInput.removeAttribute('aria-invalid');
 
     try {
-      await api.createCharacter(name, clsEl.dataset.class as PlayerClass, selectedSkin('#online-skin-row', onlineSkin));
+      await api.createCharacter(name, clsEl.dataset.class as PlayerClass, selectedFaction('#charcreate-panel'), selectedSkin('#online-skin-row', onlineSkin));
       newCharNameInput.value = '';
       charselectError.textContent = '';
       // Return to the roster and show the freshly-created character.

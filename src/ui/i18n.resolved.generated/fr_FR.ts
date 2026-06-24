@@ -174,6 +174,13 @@ export const fr_FR: EnTranslations = {
       "title": "Emotes",
       "done": "Terminé"
     },
+    "factions": {
+      "title": "Faction",
+      "alliance": "Alliance",
+      "horde": "Horde",
+      "allianceAria": "Faction Alliance",
+      "hordeAria": "Faction Horde"
+    },
     "questTracker": {
       "count": "({count})",
       "collapseHint": "Réduire le suivi des quêtes",

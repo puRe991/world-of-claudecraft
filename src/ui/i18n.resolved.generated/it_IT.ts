@@ -174,6 +174,13 @@ export const it_IT: EnTranslations = {
       "title": "Emote",
       "done": "Fine"
     },
+    "factions": {
+      "title": "Fazione",
+      "alliance": "Alleanza",
+      "horde": "Orda",
+      "allianceAria": "Fazione Alleanza",
+      "hordeAria": "Fazione Orda"
+    },
     "questTracker": {
       "count": "({count})",
       "collapseHint": "Comprimi il riquadro Missioni",
